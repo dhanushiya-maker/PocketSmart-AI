@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketSmart AI</title>
+</head>
+
+<body>
+
+    <h1>💰 PocketSmart AI</h1>
+
+    <p>Your smart budget & recommendation assistant</p>
+
+    <div id="chat-box">
+        <p><strong>PocketSmart:</strong> Hi! Tell me about your spending and I'll help you.</p>
+    </div>
+
+    <input
+        type="text"
+        id="message"
+        placeholder="Type your message..."
+    >
+
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("message");
+            const chatBox = document.getElementById("chat-box");
+
+            const message = input.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            chatBox.innerHTML += `
+                <p><strong>You:</strong> ${message}</p>
+            `;
+
+            input.value = "";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+
+                chatBox.innerHTML += `
+                    <p><strong>PocketSmart:</strong> ${data.response}</p>
+                `;
+
+            } catch (error) {
+                chatBox.innerHTML += `
+                    <p><strong>Error:</strong> Could not connect to the server.</p>
+                `;
+            }
+        }
+    </script>
+
+</body>
+</html>

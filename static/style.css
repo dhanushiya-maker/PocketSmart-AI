@@ -1,0 +1,425 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+
+    background: #f4f7fb;
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 800px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+h1 {
+    text-align: center;
+
+    margin-bottom: 8px;
+
+    color: #1e293b;
+}
+
+
+.subtitle {
+    text-align: center;
+
+    color: #64748b;
+
+    margin-bottom: 25px;
+}
+
+
+/* ============================= */
+/* FEATURE BUTTONS */
+/* ============================= */
+
+.feature-buttons {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+
+.feature-buttons button {
+    padding: 14px 10px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.feature-buttons button:hover {
+    transform: translateY(-2px);
+
+    opacity: 0.9;
+}
+
+
+/* ============================= */
+/* HOME INTERIOR FORM */
+/* ============================= */
+
+.feature-form {
+    display: none;
+
+    background: #f8fafc;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #e2e8f0;
+}
+
+
+.feature-form h2 {
+    margin-bottom: 20px;
+
+    color: #1e293b;
+}
+
+
+.feature-form label {
+    display: block;
+
+    margin-top: 14px;
+
+    margin-bottom: 6px;
+
+    font-weight: bold;
+
+    color: #334155;
+}
+
+
+.feature-form input,
+.feature-form select {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    background: white;
+}
+
+
+.feature-form input:focus,
+.feature-form select:focus {
+    outline: none;
+
+    border-color: #2563eb;
+}
+
+
+.feature-form > button {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #16a34a;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.feature-form > button:hover {
+    opacity: 0.9;
+}
+
+
+/* ============================= */
+/* CHAT BOX */
+/* ============================= */
+
+.chat-box {
+    height: 400px;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+    border-radius: 15px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #e2e8f0;
+}
+
+
+/* ============================= */
+/* CHAT MESSAGES */
+/* ============================= */
+
+.bot-message,
+.user-message {
+    padding: 12px 15px;
+
+    margin-bottom: 12px;
+
+    border-radius: 12px;
+
+    line-height: 1.6;
+}
+
+
+.bot-message {
+    background: #e8f0fe;
+
+    text-align: left;
+}
+
+
+.user-message {
+    background: #dbeafe;
+
+    text-align: right;
+}
+
+
+.bot-message p,
+.user-message p {
+    margin-top: 5px;
+}
+
+
+/* ============================= */
+/* GEMINI RESPONSE */
+/* ============================= */
+
+.response-text {
+    margin-top: 8px;
+
+    line-height: 1.7;
+}
+
+
+.response-text h1,
+.response-text h2,
+.response-text h3 {
+    margin-top: 15px;
+
+    margin-bottom: 8px;
+
+    text-align: left;
+}
+
+
+.response-text hr {
+    border: none;
+
+    border-top: 1px solid #cbd5e1;
+
+    margin: 15px 0;
+}
+
+
+/* ============================= */
+/* INPUT AREA */
+/* ============================= */
+
+.input-area {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.input-area input {
+    flex: 1;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+}
+
+
+.input-area input:focus {
+    outline: none;
+
+    border-color: #2563eb;
+}
+
+
+.input-area button {
+    padding: 14px 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+
+.input-area button:hover {
+    opacity: 0.9;
+}
+
+
+/* ============================= */
+/* ERROR MESSAGE */
+/* ============================= */
+
+.error-message {
+    padding: 12px;
+
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+
+    background: #fee2e2;
+
+    color: #991b1b;
+}
+
+
+/* ============================= */
+/* MOBILE RESPONSIVE DESIGN */
+/* ============================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 20px;
+    }
+
+
+    .feature-buttons {
+        grid-template-columns: 1fr;
+    }
+
+
+    .chat-box {
+        height: 350px;
+    }
+
+
+    .input-area {
+        flex-direction: column;
+    }
+
+
+    .input-area button {
+        width: 100%;
+    }
+
+}/* Loading indicator */
+
+.loading-message {
+    background: #f8fafc;
+    border-left: 4px solid #8b5cf6;
+    padding: 14px 17px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    color: #64748b;
+}
+
+.loading-dots {
+    display: inline-flex;
+    gap: 5px;
+    margin-left: 6px;
+}
+
+.loading-dots span {
+    width: 7px;
+    height: 7px;
+    background: #6366f1;
+    border-radius: 50%;
+    animation: loading 1.2s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loading {
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-4px);
+    }
+}

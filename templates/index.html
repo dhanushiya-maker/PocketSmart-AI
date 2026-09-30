@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PocketSmart AI</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>💰 PocketSmart AI</h1>
+
+    <p class="subtitle">
+        Your Smart Budget & Recommendation Assistant
+    </p>
+
+
+    <!-- =========================
+         AI CHAT
+    ========================== -->
+
+    <div class="planner-card">
+
+        <h2>🤖 AI Budget Assistant</h2>
+
+        <p>
+            Tell PocketSmart about your spending and get personalized budgeting help.
+        </p>
+
+        <div id="chat-box" class="chat-box">
+
+            <div class="bot-message">
+                <strong>🤖 PocketSmart:</strong>
+                <p>
+                    Hi! Tell me about your spending and I'll help you.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="message"
+                placeholder="Example: I spent ₹500 on food today"
+                onkeydown="handleKeyPress(event)"
+            >
+
+            <button onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PLANNERS
+    ========================== -->
+
+    <div class="planner-grid">
+
+
+        <!-- PARTY PLANNER -->
+
+        <div class="planner-card">
+
+            <h2>🎉 Party Planner</h2>
+
+            <p>
+                Plan your party according to your guests, budget and theme.
+            </p>
+
+            <label for="party-type">
+                Party Type
+            </label>
+
+            <select id="party-type">
+
+                <option value="Birthday">Birthday</option>
+                <option value="Wedding">Wedding</option>
+                <option value="Anniversary">Anniversary</option>
+                <option value="Baby Shower">Baby Shower</option>
+                <option value="House Party">House Party</option>
+                <option value="Engagement">Engagement</option>
+                <option value="Corporate Party">Corporate Party</option>
+                <option value="Other">Other</option>
+
+            </select>
+
+
+            <label for="party-guests">
+                Number of Guests
+            </label>
+
+            <input
+                type="number"
+                id="party-guests"
+                placeholder="Example: 20"
+                min="1"
+            >
+
+
+            <label for="party-budget">
+                Party Budget (₹)
+            </label>
+
+            <input
+                type="number"
+                id="party-budget"
+                placeholder="Example: 10000"
+                min="1"
+            >
+
+
+            <label for="party-theme">
+                Party Theme
+            </label>
+
+            <input
+                type="text"
+                id="party-theme"
+                placeholder="Example: Modern"
+            >
+
+
+            <button onclick="generatePartyRecommendation()">
+                🎉 Generate Party Plan
+            </button>
+
+        </div>
+
+
+        <!-- HOME PLANNER -->
+
+        <div class="planner-card">
+
+            <h2>🏠 Home Interior Planner</h2>
+
+            <p>
+                Get interior recommendations based on your room,
+                budget and preferred style.
+            </p>
+
+
+            <label for="room-type">
+                Room Type
+            </label>
+
+            <select id="room-type">
+
+                <option value="Living Room">Living Room</option>
+                <option value="Bedroom">Bedroom</option>
+                <option value="Kitchen">Kitchen</option>
+                <option value="Dining Room">Dining Room</option>
+                <option value="Study Room">Study Room</option>
+                <option value="Balcony">Balcony</option>
+
+            </select>
+
+
+            <label for="home-budget">
+                Budget (₹)
+            </label>
+
+            <input
+                type="number"
+                id="home-budget"
+                placeholder="Example: 50000"
+                min="1"
+            >
+
+
+            <label for="home-style">
+                Preferred Style
+            </label>
+
+            <input
+                type="text"
+                id="home-style"
+                placeholder="Example: Modern"
+            >
+
+
+            <button onclick="generateHomeRecommendation()">
+                🏠 Generate Home Plan
+            </button>
+
+        </div>
+
+
+        <!-- JEWELRY PLANNER -->
+
+        <div class="planner-card">
+
+            <h2>💎 Jewelry Planner</h2>
+
+            <p>
+                Find jewelry ideas according to your occasion,
+                budget and preferred material.
+            </p>
+
+
+            <label for="jewelry-type">
+                Jewelry Type
+            </label>
+
+            <select id="jewelry-type">
+
+                <option value="Necklace">Necklace</option>
+                <option value="Earrings">Earrings</option>
+                <option value="Ring">Ring</option>
+                <option value="Bracelet">Bracelet</option>
+                <option value="Bangle">Bangle</option>
+                <option value="Pendant">Pendant</option>
+
+            </select>
+
+
+            <label for="jewelry-occasion">
+                Occasion
+            </label>
+
+            <input
+                type="text"
+                id="jewelry-occasion"
+                placeholder="Example: Wedding"
+            >
+
+
+            <label for="jewelry-budget">
+                Budget (₹)
+            </label>
+
+            <input
+                type="number"
+                id="jewelry-budget"
+                placeholder="Example: 10000"
+                min="1"
+            >
+
+
+            <label for="jewelry-material">
+                Preferred Material
+            </label>
+
+            <input
+                type="text"
+                id="jewelry-material"
+                placeholder="Example: Gold"
+            >
+
+
+            <button onclick="generateJewelryRecommendation()">
+                💎 Generate Jewelry Plan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   LOADING INDICATOR
+========================================= */
+
+function showLoading(chatBox) {
+
+    removeLoading();
+
+    const loading = document.createElement("div");
+
+    loading.className = "loading-message";
+    loading.id = "loading-message";
+
+    loading.innerHTML = `
+        <strong>🤖 PocketSmart:</strong>
+        Thinking
+        <span class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    `;
+
+    chatBox.appendChild(loading);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+function removeLoading() {
+
+    const loading =
+        document.getElementById("loading-message");
+
+    if (loading) {
+        loading.remove();
+    }
+}
+
+
+/* =========================================
+   CHAT
+========================================= */
+
+async function sendMessage() {
+
+    const input =
+        document.getElementById("message");
+
+    const chatBox =
+        document.getElementById("chat-box");
+
+    const message =
+        input.value.trim();
+
+    if (!message) {
+        return;
+    }
+
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+
+            <strong>👤 You:</strong>
+
+            <p>
+                ${escapeHtml(message)}
+            </p>
+
+        </div>
+    `;
+
+    input.value = "";
+
+    showLoading(chatBox);
+
+
+    try {
+
+        const response = await fetch(
+            "/chat",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        removeLoading();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data)
+            );
+
+        }
+
+
+        chatBox.innerHTML += `
+            <div class="bot-message">
+
+                <strong>🤖 PocketSmart:</strong>
+
+                <div class="response-text">
+                    ${formatResponse(data.response)}
+                </div>
+
+            </div>
+        `;
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+
+    } catch (error) {
+
+        removeLoading();
+
+        chatBox.innerHTML += `
+            <div class="error-message">
+
+                <strong>⚠️ Error:</strong>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   ENTER KEY
+========================================= */
+
+function handleKeyPress(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
+}
+
+
+/* =========================================
+   PARTY PLANNER
+========================================= */
+
+async function generatePartyRecommendation() {
+
+    const partyType =
+        document.getElementById("party-type").value;
+
+    const guests =
+        document.getElementById("party-guests").value.trim();
+
+    const budget =
+        document.getElementById("party-budget").value.trim();
+
+    const theme =
+        document.getElementById("party-theme").value.trim();
+
+    const chatBox =
+        document.getElementById("chat-box");
+
+
+    if (!guests || !budget) {
+
+        alert(
+            "Please enter the number of guests and your party budget."
+        );
+
+        return;
+    }
+
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+
+            <strong>👤 Party Request:</strong>
+
+            <p>
+                ${escapeHtml(partyType)}
+                |
+                ${escapeHtml(guests)} guests
+                |
+                ₹${escapeHtml(budget)}
+                |
+                ${escapeHtml(theme || "No theme specified")}
+            </p>
+
+        </div>
+    `;
+
+
+    showLoading(chatBox);
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/generate-party",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        party_type: partyType,
+
+                        guests: guests,
+
+                        budget: budget,
+
+                        theme: theme
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        removeLoading();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data)
+            );
+
+        }
+
+
+        chatBox.innerHTML += `
+            <div class="bot-message">
+
+                <strong>🤖 PocketSmart:</strong>
+
+                <div class="response-text">
+                    ${formatResponse(data.response)}
+                </div>
+
+            </div>
+        `;
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+
+    } catch (error) {
+
+        removeLoading();
+
+        chatBox.innerHTML += `
+            <div class="error-message">
+
+                <strong>⚠️ Error:</strong>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   HOME PLANNER
+========================================= */
+
+async function generateHomeRecommendation() {
+
+    const roomType =
+        document.getElementById("room-type").value;
+
+    const budget =
+        document.getElementById("home-budget").value.trim();
+
+    const style =
+        document.getElementById("home-style").value.trim();
+
+    const chatBox =
+        document.getElementById("chat-box");
+
+
+    if (!budget) {
+
+        alert(
+            "Please enter your home interior budget."
+        );
+
+        return;
+    }
+
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+
+            <strong>👤 Home Request:</strong>
+
+            <p>
+                ${escapeHtml(roomType)}
+                |
+                ₹${escapeHtml(budget)}
+                |
+                ${escapeHtml(style || "No style specified")}
+            </p>
+
+        </div>
+    `;
+
+
+    showLoading(chatBox);
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/generate-home",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        room_type: roomType,
+
+                        budget: budget,
+
+                        style: style
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        removeLoading();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data)
+            );
+
+        }
+
+
+        chatBox.innerHTML += `
+            <div class="bot-message">
+
+                <strong>🤖 PocketSmart:</strong>
+
+                <div class="response-text">
+                    ${formatResponse(data.response)}
+                </div>
+
+            </div>
+        `;
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+
+    } catch (error) {
+
+        removeLoading();
+
+        chatBox.innerHTML += `
+            <div class="error-message">
+
+                <strong>⚠️ Error:</strong>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   JEWELRY PLANNER
+========================================= */
+
+async function generateJewelryRecommendation() {
+
+    const jewelryType =
+        document.getElementById("jewelry-type").value;
+
+    const occasion =
+        document.getElementById("jewelry-occasion").value.trim();
+
+    const budget =
+        document.getElementById("jewelry-budget").value.trim();
+
+    const material =
+        document.getElementById("jewelry-material").value.trim();
+
+    const chatBox =
+        document.getElementById("chat-box");
+
+
+    if (!occasion || !budget) {
+
+        alert(
+            "Please enter the occasion and jewelry budget."
+        );
+
+        return;
+    }
+
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+
+            <strong>👤 Jewelry Request:</strong>
+
+            <p>
+                ${escapeHtml(jewelryType)}
+                |
+                ${escapeHtml(occasion)}
+                |
+                ₹${escapeHtml(budget)}
+                |
+                ${escapeHtml(material || "No material specified")}
+            </p>
+
+        </div>
+    `;
+
+
+    showLoading(chatBox);
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/generate-jewelry",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        jewelry_type: jewelryType,
+
+                        occasion: occasion,
+
+                        budget: budget,
+
+                        material: material
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        removeLoading();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                getErrorMessage(data)
+            );
+
+        }
+
+
+        chatBox.innerHTML += `
+            <div class="bot-message">
+
+                <strong>🤖 PocketSmart:</strong>
+
+                <div class="response-text">
+                    ${formatResponse(data.response)}
+                </div>
+
+            </div>
+        `;
+
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+
+    } catch (error) {
+
+        removeLoading();
+
+        chatBox.innerHTML += `
+            <div class="error-message">
+
+                <strong>⚠️ Error:</strong>
+
+                <p>
+                    ${escapeHtml(error.message)}
+                </p>
+
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =========================================
+   ERROR HANDLING
+========================================= */
+
+function getErrorMessage(data) {
+
+    if (!data) {
+        return "Request failed.";
+    }
+
+
+    if (typeof data.detail === "string") {
+        return data.detail;
+    }
+
+
+    if (Array.isArray(data.detail)) {
+
+        return data.detail
+            .map(item => {
+
+                if (item.msg) {
+                    return item.msg;
+                }
+
+                return JSON.stringify(item);
+
+            })
+            .join(", ");
+
+    }
+
+
+    return JSON.stringify(data);
+
+}
+
+
+/* =========================================
+   RESPONSE FORMATTING
+========================================= */
+
+function formatResponse(text) {
+
+    if (!text) {
+        return "No response received.";
+    }
+
+
+    let result =
+        escapeHtml(String(text));
+
+
+    /*
+       Bold:
+       **text**
+    */
+
+    result =
+        result.replace(
+            /\*\*(.*?)\*\*/g,
+            "<strong>$1</strong>"
+        );
+
+
+    /*
+       Headings:
+       ### Heading
+    */
+
+    result =
+        result.replace(
+            /^### (.*)$/gm,
+            "<h3>$1</h3>"
+        );
+
+
+    result =
+        result.replace(
+            /^## (.*)$/gm,
+            "<h2>$1</h2>"
+        );
+
+
+    /*
+       Bullet points
+    */
+
+    result =
+        result.replace(
+            /^\* (.*)$/gm,
+            "• $1"
+        );
+
+
+    /*
+       Horizontal rules
+    */
+
+    result =
+        result.replace(
+            /^---$/gm,
+            "<hr>"
+        );
+
+
+    /*
+       New lines
+    */
+
+    result =
+        result.replace(
+            /\n/g,
+            "<br>"
+        );
+
+
+    return result;
+
+}
+
+
+/* =========================================
+   HTML ESCAPING
+========================================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+</body>
+</html>
